@@ -85,11 +85,11 @@ unittest(test_get_coefficients)
   C.add(6, 15);
   C.calculate();
 
-  assertEqualFloat(0, C.getA(), 0.0001);
-  assertEqualFloat(0, C.getB(), 0.0001);
-  assertEqualFloat(0, C.getR(), 0.0001);
-  assertEqualFloat(0, C.getRsquare(), 0.0001);
-  assertEqualFloat(0, C.getEsquare(), 0.0001);
+  assertEqualFloat(2.6, C.getA(), 0.0001);
+  assertEqualFloat(2.1, C.getB(), 0.0001);
+  assertEqualFloat(0.97913, C.getR(), 0.0001);
+  assertEqualFloat(0.958696, C.getRsquare(), 0.0001);
+  assertEqualFloat(1.9, C.getEsquare(), 0.0001);
 }
 
 
@@ -104,8 +104,8 @@ unittest(test_get_statistics)
   C.add(6, 15);
   C.calculate();
 
-  assertEqualFloat(0, C.getAvgX(), 0.0001);
-  assertEqualFloat(0, C.getAvgY(), 0.0001);
+  assertEqualFloat(4, C.getAvgX(), 0.0001);
+  assertEqualFloat(11, C.getAvgY(), 0.0001);
 }
 
 
@@ -130,6 +130,8 @@ unittest(test_estimate)
   {
     fprintf(stderr, "%d\t%f\n", i, C.getEstimateY(i));
   }
+  assertEqualFloat(0, C.getEstimateX(0), 0.0001);
+  assertEqualFloat(0, C.getEstimateY(0), 0.0001);
 }
 
 unittest_main()
