@@ -1,6 +1,12 @@
+
+[![Arduino CI](https://github.com/RobTillaart/Correlation/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Correlation/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/Correlation.svg?maxAge=3600)](https://github.com/RobTillaart/Correlation/releases)
+
+
 # Correlation
 
-Arduino Library to determine linear correlation between X and Y dataset
+Arduino Library to determine linear correlation between X and Y datasets.
 
 # Description
 
@@ -18,7 +24,6 @@ The main functions of the class are
 **add(x, y)** adds a pair of **floats** to the internal storage. 
 In the future the constructor should get a TYPE parameter, as this
 allows smaller datatypes to be analyzed taking less memory.
-
 **count()** returns the amount of items in the internal arrays.
 
 **clear()** resets the datastructure to clean condition.
@@ -41,8 +46,11 @@ or negative. Most often the **sqr(R)** is used
 
 **getRsquare()** returns the **sqr(R)** which is always between 0.. 1.
 
-** getEsquare()** returns the error squared to get an indication of the
+**getEsquare()** returns the error squared to get an indication of the
 quality of the relation
+
+**getAvgX()** returns the average of all elements in the X dataset.
+**getAvgY()** returns the average of all elements in the Y dataset.
 
 **getEstimateX(y)** and **getEstimateY(x)** are used to calculate the
 estimated values for a certain y or x value.

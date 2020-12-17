@@ -1,16 +1,18 @@
 #pragma once
 //
 //    FILE: Correlation.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.1
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.2
 // PURPOSE: Calculate Correlation from a small dataset.
 // HISTORY: See Correlation.cpp
 //
 
-#include <Arduino.h>
+#include "Arduino.h"
 
+// CORRELATION_SIZE should not exceed 250
+// 
 #ifndef CORRELATION_SIZE
-#define CORRELATION_SIZE 100
+#define CORRELATION_SIZE 20
 #endif
 
 class Correlation
@@ -23,14 +25,17 @@ public:
   bool    add(float x, float y);
 
   uint8_t count() { return _count; };
+  uint8_t size()  { return CORRELATION_SIZE; };
   void    clear();
 
   // in running mode, adding new values will replace old ones
   // this constantly adapts the regression params A and B.
   void    setRunningCorrelation(bool rc) { _runningMode = rc; };
 
-  // worker, that calculates the params. 
-  // need to be called before getting the params A, B, R, Rsquare, Esquare
+  // worker, to calculate the correlation params. 
+  // MUST be called before getting the params A, B, R, Rsquare, Esquare, 
+  //                                          avgX and avgY
+  // returns false if contains no elements ==> count() == 0
   bool    calculate();
 
   // Y = A + B * X
@@ -44,6 +49,10 @@ public:
   // returns sum of the errors squared
   float   getEsquare() { return _sumErrorSquare; };
 
+  // get the average values of the datasets (as it is available)
+  float   getAvgX()     { return _avgX; };
+  float   getAvgY()     { return _avgX; };
+  
   // based on the dataset get the estimated values for X and Y
   // library does not return confidence interval for these. 
   float   getEstimateY(float x);
