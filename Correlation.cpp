@@ -1,12 +1,14 @@
 //
 //    FILE: Correlation.cpp
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.1
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.2
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //
 // HISTORY:
-// 0.1.1   2020-06-05 fix library.json
-// 0.1.0   2020-05-17 initial version
+// 0.1.2   2020-12-17  add arduino-CI + unit tests
+//                     + size() + getAvgX() + getAvgY()
+// 0.1.1   2020-06-05  fix library.json
+// 0.1.0   2020-05-17  initial version
 //
 
 #include "Correlation.h"
@@ -18,15 +20,21 @@ Correlation::Correlation()
 
 void Correlation::clear()
 {
-  _count = 0;
-  _idx = 0;
+  _count           = 0;
+  _idx             = 0;
   _needRecalculate = true;
-  _runningMode = false;
+  _runningMode     = false;
+  _avgX            = 0;
+  _avgY            = 0;
+  _a               = 0;
+  _b               = 0;
+  _rSquare         = 0;
+  _sumErrorSquare  = 0;
 }
 
 bool Correlation::add(float x, float y)
 {
-  if (_count < CORRELATION_SIZE || _runningMode)
+  if ( (_count < CORRELATION_SIZE) || _runningMode)
   {
     _x[_idx] = x;
     _y[_idx] = y;
@@ -57,15 +65,15 @@ bool Correlation::calculate()
 
   // CALC A and B  ==>  formula  Y = A + B*X
   float sumXiYi = 0;
-  float sumXi2 = 0;
-  float sumYi2 = 0;
+  float sumXi2  = 0;
+  float sumYi2  = 0;
   for (uint8_t i = 0; i < _count; i++)
   {
     float xi = _x[i] - _avgX;
     float yi = _y[i] - _avgY;
     sumXiYi += (xi * yi);
-	sumXi2 += (xi * xi);
-	sumYi2 += (yi * yi);
+    sumXi2  += (xi * xi);
+    sumYi2  += (yi * yi);
   }
   _b = sumXiYi / sumXi2;
   _a = _avgY - _b * _avgX;
@@ -76,8 +84,8 @@ bool Correlation::calculate()
   for (uint8_t i = 0; i < _count; i++)
   {
     float EY =  _a + _b * _x[i];
-	float ei = _y[i] - EY;
-	_sumErrorSquare += (ei * ei);
+    float ei = _y[i] - EY;
+    _sumErrorSquare += (ei * ei);
   }
   _needRecalculate = false;
   return true;
@@ -89,6 +97,7 @@ float Correlation::getEstimateY(float x)
   if (_needRecalculate) calculate();
   return _a + _b * x;
 }
+
 float Correlation::getEstimateX(float y)
 {
   if (_count == 0) return NAN;
