@@ -130,7 +130,7 @@ unittest(test_estimate)
   {
     fprintf(stderr, "%d\t%f\n", i, C.getEstimateY(i));
   }
-  assertEqualFloat(0, C.getEstimateX(0), 0.0001);
+  assertEqualFloat(1.2381, C.getEstimateX(0), 0.0001);
   assertEqualFloat(0, C.getEstimateY(0), 0.0001);
 }
 
