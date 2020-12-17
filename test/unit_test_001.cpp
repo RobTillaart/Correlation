@@ -65,6 +65,71 @@ unittest(test_add_clear)
   C.clear();
   assertEqual(0, C.count());
   assertEqual(20, C.size());
+  
+  for (int i = 0; i < C.size(); i++)
+  {
+    assertTrue(C.add(i, i*i));
+  }
+  assertFalse(C.add(0, 0));
+}
+
+
+unittest(test_get_coefficients)
+{
+  Correlation C;
+
+  C.add(2, 7);
+  C.add(3, 9);
+  C.add(4, 10);
+  C.add(5, 14);
+  C.add(6, 15);
+  C.calculate();
+
+  assertEqualFloat(5, C.getA(), 0.0001);
+  assertEqualFloat(20, C.getB(), 0.0001);
+  assertEqualFloat(0, C.getR(), 0.0001);
+  assertEqualFloat(20, C.getRsquare(), 0.0001);
+  assertEqualFloat(20, C.getEsquare(), 0.0001);
+}
+
+
+unittest(test_get_statistics)
+{
+  Correlation C;
+
+  C.add(2, 7);
+  C.add(3, 9);
+  C.add(4, 10);
+  C.add(5, 14);
+  C.add(6, 15);
+  C.calculate();
+
+  assertEqualFloat(5, C.getAvgX(), 0.0001);
+  assertEqualFloat(20, C.getAvgY(), 0.0001);
+}
+
+
+unittest(test_estimate)
+{
+  Correlation C;
+
+  C.add(2, 7);
+  C.add(3, 9);
+  C.add(4, 10);
+  C.add(5, 14);
+  C.add(6, 15);
+  C.calculate();
+  
+  fprintf(stderr, "estimate Y\n");
+  for (int i = 4; i < 8; i++)
+  {
+    assertEqualFloat(0, C.getEstimateY(i), 0.0001);
+  }
+  fprintf(stderr, "estimate X\n");
+  for (int i = 15; i < 20; i++)
+  {
+    assertEqualFloat(0, C.getEstimateX(i), 0.0001);
+  }
 }
 
 unittest_main()
