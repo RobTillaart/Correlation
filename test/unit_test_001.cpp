@@ -85,11 +85,11 @@ unittest(test_get_coefficients)
   C.add(6, 15);
   C.calculate();
 
-  assertEqualFloat(5, C.getA(), 0.0001);
-  assertEqualFloat(20, C.getB(), 0.0001);
+  assertEqualFloat(0, C.getA(), 0.0001);
+  assertEqualFloat(0, C.getB(), 0.0001);
   assertEqualFloat(0, C.getR(), 0.0001);
-  assertEqualFloat(20, C.getRsquare(), 0.0001);
-  assertEqualFloat(20, C.getEsquare(), 0.0001);
+  assertEqualFloat(0, C.getRsquare(), 0.0001);
+  assertEqualFloat(0, C.getEsquare(), 0.0001);
 }
 
 
@@ -104,8 +104,8 @@ unittest(test_get_statistics)
   C.add(6, 15);
   C.calculate();
 
-  assertEqualFloat(5, C.getAvgX(), 0.0001);
-  assertEqualFloat(20, C.getAvgY(), 0.0001);
+  assertEqualFloat(0, C.getAvgX(), 0.0001);
+  assertEqualFloat(0, C.getAvgY(), 0.0001);
 }
 
 
@@ -120,15 +120,15 @@ unittest(test_estimate)
   C.add(6, 15);
   C.calculate();
   
-  fprintf(stderr, "estimate Y\n");
+  fprintf(stderr, "estimate X\n");
   for (int i = 4; i < 8; i++)
   {
-    assertEqualFloat(0, C.getEstimateY(i), 0.0001);
+    fprintf(stderr, "%d\t%f\n", i, C.getEstimateX(i));
   }
   fprintf(stderr, "estimate X\n");
   for (int i = 15; i < 20; i++)
   {
-    assertEqualFloat(0, C.getEstimateX(i), 0.0001);
+    fprintf(stderr, "%d\t%f\n", i, C.getEstimateY(i));
   }
 }
 

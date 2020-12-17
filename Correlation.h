@@ -50,8 +50,8 @@ public:
   float   getEsquare() { return _sumErrorSquare; };
 
   // get the average values of the datasets (as it is available)
-  float   getAvgX()     { return _avgX; };
-  float   getAvgY()     { return _avgX; };
+  float   getAvgX()    { return _avgX; };
+  float   getAvgY()    { return _avgX; };
   
   // based on the dataset get the estimated values for X and Y
   // library does not return confidence interval for these. 
