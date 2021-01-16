@@ -1,22 +1,36 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //
-// HISTORY:
-// 0.1.2   2020-12-17  add arduino-CI + unit tests
+//  HISTORY:
+//  0.1.3  2021-01-16  size in constructor
+//  0.1.2  2020-12-17  add arduino-CI + unit tests
 //                     + size() + getAvgX() + getAvgY()
-// 0.1.1   2020-06-05  fix library.json
-// 0.1.0   2020-05-17  initial version
-//
+//  0.1.1  2020-06-05  fix library.json
+//  0.1.0  2020-05-17  initial version
+
+
 
 #include "Correlation.h"
 
-Correlation::Correlation()
+
+Correlation::Correlation(uint8_t size)
 {
+  _size = size;
+  _x = (float *) malloc(_size * sizeof(float));
+  _y = (float *) malloc(_size * sizeof(float));
   clear();
 }
+
+
+Correlation::~Correlation()
+{
+  free(_x);
+  free(_y);
+}
+
 
 void Correlation::clear()
 {
@@ -32,20 +46,22 @@ void Correlation::clear()
   _sumErrorSquare  = 0;
 }
 
+
 bool Correlation::add(float x, float y)
 {
-  if ( (_count < CORRELATION_SIZE) || _runningMode)
+  if ( (_count < _size) || _runningMode)
   {
     _x[_idx] = x;
     _y[_idx] = y;
     _idx++;
-    if (_idx >= CORRELATION_SIZE) _idx = 0;
-    if (_count < CORRELATION_SIZE) _count++;
+    if (_idx >= _size) _idx = 0;
+    if (_count < _size) _count++;
     _needRecalculate = true;
     return true;
   }
   return false;
 }
+
 
 bool Correlation::calculate()
 {
@@ -91,6 +107,7 @@ bool Correlation::calculate()
   return true;
 }
 
+
 float Correlation::getEstimateY(float x)
 {
   if (_count == 0) return NAN;
@@ -98,11 +115,102 @@ float Correlation::getEstimateY(float x)
   return _a + _b * x;
 }
 
+
 float Correlation::getEstimateX(float y)
 {
   if (_count == 0) return NAN;
   if (_needRecalculate) calculate();
   return (y - _a) / _b;
+}
+
+
+//////////////////////////////////////////////////////
+//
+// STATISTICAL
+//
+float Correlation::getMaxX()
+{
+  if (_count == 0) return NAN;
+  float rv = _x[0];
+  for (uint8_t i = 1; i < _count; i++)
+  {
+    if (_x[i] > rv) rv = _x[i];
+  }
+  return rv;
+}
+
+float Correlation::getMinX()
+{
+  if (_count == 0) return NAN;
+  float rv = _x[0];
+  for (uint8_t i = 1; i < _count; i++)
+  {
+    if (_x[i] < rv) rv = _x[i];
+  }
+  return rv;
+}
+
+float Correlation::getMaxY()
+{
+  if (_count == 0) return NAN;
+  float rv = _y[0];
+  for (uint8_t i = 1; i < _count; i++)
+  {
+    if (_y[i] > rv) rv = _y[i];
+  }
+  return rv;
+}
+
+float Correlation::getMinY()
+{
+  if (_count == 0) return NAN;
+  float rv = _y[0];
+  for (uint8_t i = 1; i < _count; i++)
+  {
+    if (_y[i] < rv) rv = _y[i];
+  }
+  return rv;
+}
+
+//////////////////////////////////////////////////////
+//
+// DEBUGGING - access to internal arrays.
+//
+bool Correlation::setXY(uint8_t idx, float x, float y)
+{
+  if (idx >= _count) return false;
+  _x[idx] = x;
+  _y[idx] = y;
+  _needRecalculate = true;
+  return true;
+}
+
+bool Correlation::setX(uint8_t idx, float x)
+{
+  if (idx >= _count) return false;
+  _x[idx] = x;
+  _needRecalculate = true;
+  return true;
+}
+
+float Correlation::getX(uint8_t idx)
+{
+  if (idx >= _count) return NAN;
+  return _x[idx];
+}
+
+bool Correlation::setY(uint8_t idx, float y)
+{
+  if (idx >= _count) return false;
+  _y[idx] = y;
+  _needRecalculate = true;
+  return true;
+}
+
+float Correlation::getY(uint8_t idx)
+{
+  if (idx > _count) return NAN;
+  return _y[idx];
 }
 
 // -- END OF FILE --

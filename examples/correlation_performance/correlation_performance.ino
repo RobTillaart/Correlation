@@ -1,13 +1,13 @@
 //
-//    FILE: demo_performance.ino
+//    FILE: correlation_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
 // VERSION: 0.1.0
 // PUPROSE: demo of the Correlation Library
-//
 
 // performance test: only ADD and CALCULATE as these are the most used
 // and could be optimized in the future
+
 
 #include "Correlation.h"
 
