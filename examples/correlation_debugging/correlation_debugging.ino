@@ -8,7 +8,7 @@
 
 #include "Correlation.h"
 
-#define SIZE  150
+#define SIZE  15
 
 Correlation C(SIZE);
 
@@ -16,17 +16,19 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.println();
 
   C.clear();
-  Serial.print("cnt\tminX\tmaxX\tminY\tmaxY\n");
+
   for (int i = 0; i < SIZE; i++)
   {
     C.add(i * 10, i * 40 + 0.1 * random(10));
   }
 
+  Serial.println("cnt\tX\tY");
   for (int i = 0; i < SIZE; i++)
   {
-    Serial.print(C.count());
+    Serial.print(i);
     Serial.print("\t");
     Serial.print(C.getX(i), 2);
     Serial.print("\t");
@@ -45,16 +47,23 @@ void setup()
   Serial.println(C.getRsquare(), 6);
   Serial.print("Esq:\t");
   Serial.println(C.getEsquare(), 3);
+  Serial.print("SumXiYi:\t");
+  Serial.println(C.getSumXiYi(), 1);
+  Serial.print("SumXi2:\t\t");
+  Serial.println(C.getSumXi2(), 1);
+  Serial.print("SumYi2:\t\t");
+  Serial.println(C.getSumYi2(), 1);
   Serial.println();
-
+  Serial.println();
 
   for (int i = 0; i < SIZE; i++)
   {
     C.setXY(i, 0, 0);  // create flatliner;
   }
+  Serial.println("cnt\tX\tY");
   for (int i = 0; i < SIZE; i++)
   {
-    Serial.print(C.count());
+    Serial.print(i);
     Serial.print("\t");
     Serial.print(C.getX(i), 2);
     Serial.print("\t");
@@ -79,9 +88,10 @@ void setup()
   {
     C.setX(i, i);
   }
+  Serial.println("cnt\tX\tY");
   for (int i = 0; i < SIZE; i++)
   {
-    Serial.print(C.count());
+    Serial.print(i);
     Serial.print("\t");
     Serial.print(C.getX(i), 2);
     Serial.print("\t");
@@ -106,9 +116,10 @@ void setup()
   {
     C.setY(i, PI * i);
   }
+  Serial.println("cnt\tX\tY");
   for (int i = 0; i < SIZE; i++)
   {
-    Serial.print(C.count());
+    Serial.print(i);
     Serial.print("\t");
     Serial.print(C.getX(i), 2);
     Serial.print("\t");

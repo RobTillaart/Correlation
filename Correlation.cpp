@@ -5,7 +5,8 @@
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //
 //  HISTORY:
-//  0.1.3  2021-01-16  size in constructor
+//  0.1.3  2021-01-16  add size in constructor, 
+//                     add statistical + debug functions
 //  0.1.2  2020-12-17  add arduino-CI + unit tests
 //                     + size() + getAvgX() + getAvgY()
 //  0.1.1  2020-06-05  fix library.json
@@ -44,6 +45,9 @@ void Correlation::clear()
   _b               = 0;
   _rSquare         = 0;
   _sumErrorSquare  = 0;
+  _sumXiYi         = 0;
+  _sumXi2          = 0;
+  _sumYi2          = 0;
 }
 
 
@@ -65,8 +69,8 @@ bool Correlation::add(float x, float y)
 
 bool Correlation::calculate()
 {
-  if (!_needRecalculate) return true;
   if (_count == 0) return false;
+  if (!_needRecalculate) return true;
 
   // CALC AVERAGE X, AVERAGE Y
   _avgX = 0;
@@ -80,20 +84,20 @@ bool Correlation::calculate()
   _avgY /= _count;
 
   // CALC A and B  ==>  formula  Y = A + B*X
-  float sumXiYi = 0;
-  float sumXi2  = 0;
-  float sumYi2  = 0;
+  _sumXiYi = 0;
+  _sumXi2  = 0;
+  _sumYi2  = 0;
   for (uint8_t i = 0; i < _count; i++)
   {
     float xi = _x[i] - _avgX;
     float yi = _y[i] - _avgY;
-    sumXiYi += (xi * yi);
-    sumXi2  += (xi * xi);
-    sumYi2  += (yi * yi);
+    _sumXiYi += (xi * yi);
+    _sumXi2  += (xi * xi);
+    _sumYi2  += (yi * yi);
   }
-  _b = sumXiYi / sumXi2;
+  _b = _sumXiYi / _sumXi2;
   _a = _avgY - _b * _avgX;
-  _rSquare = sumXiYi * sumXiYi / (sumXi2 * sumYi2);
+  _rSquare = _sumXiYi * _sumXiYi / (_sumXi2 * _sumYi2);
 
   // CALC _sumErrorSquare
   _sumErrorSquare = 0;

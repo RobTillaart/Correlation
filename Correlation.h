@@ -60,14 +60,11 @@ public:
   float   getEstimateX(float y);
 
 
-  // STATISTICAL - gives indication of "trusted interval" for estimations
-  //   IDEA is that for getEstimateX the farther outside the "box"
-  //        the less the result can be trusted.
-  //        depends also on R of course (incl inside the "box")
-  float   getMaxX();    // idem
+  // STATISTICAL
   float   getMinX();    // idem
-  float   getMaxY();    // idem
+  float   getMaxX();    // idem
   float   getMinY();    // idem
+  float   getMaxY();    // idem
 
 
   // DEBUGGING - access to internal arrays.
@@ -76,6 +73,9 @@ public:
   bool    setY(uint8_t idx, float y);            // returns true if succeeded
   float   getX(uint8_t idx);    // idem
   float   getY(uint8_t idx);    // idem
+  float   getSumXiYi() { return _sumXiYi; };
+  float   getSumXi2()  { return _sumXi2;  };
+  float   getSumYi2()  { return _sumYi2;  };
 
 
 private:
@@ -94,6 +94,9 @@ private:
   float   _b;
   float   _rSquare;
   float   _sumErrorSquare;
+  float   _sumXiYi;
+  float   _sumXi2;
+  float   _sumYi2;
 };
 
 // -- END OF FILE --
