@@ -167,17 +167,17 @@ unittest(test_calculate_flags)
 {
   Correlation C;
 
-  assertFalse(C.getR2Calculation());
-  C.setR2Calculation(true);
   assertTrue(C.getR2Calculation());
   C.setR2Calculation(false);
   assertFalse(C.getR2Calculation());
+  C.setR2Calculation(true);
+  assertTrue(C.getR2Calculation());
 
-  assertFalse(C.getE2Calculation());
-  C.setE2Calculation(true);
   assertTrue(C.getE2Calculation());
   C.setE2Calculation(false);
   assertFalse(C.getE2Calculation());
+  C.setE2Calculation(true);
+  assertTrue(C.getE2Calculation());
 }
 
 
