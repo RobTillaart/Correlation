@@ -17,11 +17,14 @@ This library calculates the coefficients of the linear correlation
 between two (relative small) datasets. The size of these datasets is 
 20 by default. The size can be set in the constructor. 
 
-The formula of the correlation is expressed as **Y = A + B \* X**,
-
 Please note that the correlation uses about ~50 bytes per instance,
 and 2 floats == 8 bytes per pair of elements.
 So ~120 elements will use up 50% of the RAM of an UNO.
+
+The formula of the correlation is expressed as **Y = A + B \* X**,
+
+If all points are on a vertical line, the parameter B will be NAN,
+This will happen if the **sumXi2** is zero or very small. 
 
 Use with care.
 
@@ -40,7 +43,9 @@ Use with care.
 - **bool add(float x, float y)** adds a pair of **floats** to the internal storage arrays's.
 Returns true if the value is added, returns false when internal array is full.
 When running correlation is set, **add()** will replace the oldest element and return true.
-- **uint8_t count()** returns the amount of items in the internal arrays. This number is always between 0 ..**size()**
+Warning: **add()** does not check if the floats are NAN or INFINITE.
+- **uint8_t count()** returns the amount of items in the internal arrays. 
+This number is always between 0 ..**size()**
 - **uint8_t size()** returns the size of the internal arrays.
 - **void clear()** resets the data structures to the start condition (zero elements added)
 - **bool calculate()** does the math to calculate the correlation parameters A, B and R. 
@@ -113,6 +118,7 @@ Returns true if succeeded.
 - Template version
 The constructor should get a TYPE parameter, as this
 allows smaller data types to be analysed taking less memory.
+- get the sign of R correct.
 
 
 ## Operation 

@@ -20,7 +20,7 @@ public:
   Correlation(uint8_t size = 20);   // WARNING calculate memory usage !!
   ~Correlation();
 
-  // returns true if the value is added to internal array.
+  // returns true if the pair of values is added to internal array.
   // returns false when internal array is full.
   bool    add(float x, float y);
 
@@ -30,21 +30,24 @@ public:
   void    clear();
 
 
-  // in running mode, adding new values will replace old ones
-  // this constantly adapts the regression params A and B.
+  // in running mode, adding new pair of values will replace old ones
+  // this constantly adapts the regression parameters A and B (iff calculate is called)
   void    setRunningCorrelation(bool rc) { _runningMode = rc; };
   bool    getRunningCorrelation()        { return _runningMode; };
 
 
-  // worker, to calculate the correlation params.
-  // MUST be called before getting the params A, B, R, Rsquare, Esquare, 
-  //                                          avgX and avgY
+  // worker, to calculate the correlation parameters.
+  // MUST be called before retrieving the parameters 
+  //      A, B, R, Rsquare, Esquare, avgX and avgY
+  //
   // parameter forced overrules the _needRecalculate flag.
   //           forced is default false to maintain backwards compatibility
+  //
   // returns false if contains no elements ==> count() == 0
   bool    calculate(bool forced = false);
-  // enables / disables R2 and E2 calculation 
-  // to speed up the calculate function
+  // enables / disables R, Rsquare and Esquare calculation
+  // This can be used to speed up the calculate function if
+  // these values are not used in your project.
   void    setR2Calculation(bool doR2) { _doR2 = doR2; };
   bool    getR2Calculation() { return _doR2; };
   void    setE2Calculation(bool doE2) { _doE2 = doE2; };
@@ -58,22 +61,25 @@ public:
   float   getB()       { return _b; };
 
 
-  // returns R == correlation coefficient
+  // returns abs(R) == correlation coefficient
+  // note that the sign of R can be incorrect.        TODO?
   float   getR()       { return sqrt(_rSquare); };
   float   getRsquare() { return _rSquare; };
 
 
-  // returns sum of the errors squared
- float   getEsquare() { return _sumErrorSquare; };
+  // returns sum of the errors squared == indication of 'spread'
+  // the smaller this value the more the points are on/near one line.
+  float   getEsquare() { return _sumErrorSquare; };
 
 
-  // get the average values of the datasets (as it is available)
+  // get the average values of the datasets (if count > 0)
   float   getAvgX()    { return _avgX; };
   float   getAvgY()    { return _avgY; };
 
 
   // based on the dataset get the estimated values for X and Y
-  // library does not return confidence interval for these. 
+  // it uses the last calculated A and B
+  // library does not return a confidence interval for these values.
   float   getEstimateY(float x);
   float   getEstimateX(float y);
 

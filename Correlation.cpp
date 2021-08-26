@@ -9,7 +9,7 @@
 //                     will improve performance calculate
 //
 //  0.1.4  2021-08-26  improve performance calculate
-//  0.1.3  2021-01-16  add size in constructor, 
+//  0.1.3  2021-01-16  add size in constructor,
 //                     add statistical + debug functions
 //  0.1.2  2020-12-17  add arduino-CI + unit tests
 //                     + size() + getAvgX() + getAvgY()
@@ -53,6 +53,8 @@ void Correlation::clear()
   _sumXiYi         = 0;
   _sumXi2          = 0;
   _sumYi2          = 0;
+  _doR2            = true;
+  _doE2            = true;
 }
 
 
@@ -87,7 +89,7 @@ bool Correlation::calculate(bool forced)
   }
   avgx /= _count;
   avgy /= _count;
-  
+
   _avgX = avgx;
   _avgY = avgy;
 
@@ -108,9 +110,9 @@ bool Correlation::calculate(bool forced)
 
   _a       = a;
   _b       = b;
-  _sumXiYi = sumXiYi; 
-  _sumXi2  = sumXi2; 
-  _sumYi2  = sumYi2; 
+  _sumXiYi = sumXiYi;
+  _sumXi2  = sumXi2;
+  _sumYi2  = sumYi2;
 
   if (_doR2 == true)
   {
