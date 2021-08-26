@@ -2,7 +2,7 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Calculate Correlation from a small dataset.
 // HISTORY: See Correlation.cpp
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.1.4"))
+#define CORRELATION_LIB_VERSION          (F("0.2.0"))
 
 
 class Correlation
@@ -24,36 +24,54 @@ public:
   // returns false when internal array is full.
   bool    add(float x, float y);
 
+  // administrative functions
   uint8_t count() { return _count; };
   uint8_t size()  { return _size; };
   void    clear();
+
 
   // in running mode, adding new values will replace old ones
   // this constantly adapts the regression params A and B.
   void    setRunningCorrelation(bool rc) { _runningMode = rc; };
   bool    getRunningCorrelation()        { return _runningMode; };
 
-  // worker, to calculate the correlation params. 
+
+  // worker, to calculate the correlation params.
   // MUST be called before getting the params A, B, R, Rsquare, Esquare, 
   //                                          avgX and avgY
+  // parameter forced overrules the _needRecalculate flag.
+  //           forced is default false to maintain backwards compatibility
   // returns false if contains no elements ==> count() == 0
-  bool    calculate();
+  bool    calculate(bool forced = false);
+  // enables / disables R2 and E2 calculation 
+  // to speed up the calculate function
+  void    setR2Calculation(bool doR2) { _doR2 = doR2; };
+  bool    getR2Calculation() { return _doR2; };
+  void    setE2Calculation(bool doE2) { _doE2 = doE2; };
+  bool    getE2Calculation() { return _doE2; };
+
 
   // Y = A + B * X
+  // note if no elements are added or calculate is not called
+  //      the values for A and B are 0
   float   getA()       { return _a; };
   float   getB()       { return _b; };
+
 
   // returns R == correlation coefficient
   float   getR()       { return sqrt(_rSquare); };
   float   getRsquare() { return _rSquare; };
-  
+
+
   // returns sum of the errors squared
-  float   getEsquare() { return _sumErrorSquare; };
+ float   getEsquare() { return _sumErrorSquare; };
+
 
   // get the average values of the datasets (as it is available)
   float   getAvgX()    { return _avgX; };
   float   getAvgY()    { return _avgY; };
-  
+
+
   // based on the dataset get the estimated values for X and Y
   // library does not return confidence interval for these. 
   float   getEstimateY(float x);
@@ -73,6 +91,7 @@ public:
   bool    setY(uint8_t idx, float y);            // returns true if succeeded
   float   getX(uint8_t idx);    // idem
   float   getY(uint8_t idx);    // idem
+
   float   getSumXiYi() { return _sumXiYi; };
   float   getSumXi2()  { return _sumXi2;  };
   float   getSumYi2()  { return _sumYi2;  };
@@ -84,6 +103,8 @@ private:
   uint8_t _count = 0;
   bool    _runningMode = false;
   bool    _needRecalculate = true;
+  bool    _doE2 = true;
+  bool    _doR2 = true;
 
   float *  _x;
   float *  _y;

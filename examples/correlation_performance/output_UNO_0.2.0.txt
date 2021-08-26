@@ -1,0 +1,37 @@
+CORRELATION_LIB_VERSION: 0.2.0
+ADD
+12.00
+
+CALCULATE - needed 
+2732
+
+CALCULATE - no new values added
+8
+
+getEstimateX
+44
+
+getEstimateY
+20
+
+getMaxX
+92
+
+===================================
+0.2.0 
+
+ADD
+24.40
+
+disable R2 and E2 math from calculate
+
+CALCULATE - needed 
+1780
+
+CALCULATE - no new values added
+12
+
+CALCULATE - no new values added but forced
+1780
+
+Done...

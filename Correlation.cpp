@@ -1,12 +1,14 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //
 //  HISTORY:
-//  0.1.4  2021-08-26  improve performance calculate
+//  0.2.0  2021-08-26  Add flags to skip Rsquare and Esquare calculation
+//                     will improve performance calculate
 //
+//  0.1.4  2021-08-26  improve performance calculate
 //  0.1.3  2021-01-16  add size in constructor, 
 //                     add statistical + debug functions
 //  0.1.2  2020-12-17  add arduino-CI + unit tests
@@ -30,8 +32,8 @@ Correlation::Correlation(uint8_t size)
 
 Correlation::~Correlation()
 {
-  free(_x);
-  free(_y);
+  if (_x) free(_x);
+  if (_y) free(_y);
 }
 
 
@@ -69,10 +71,10 @@ bool Correlation::add(float x, float y)
 }
 
 
-bool Correlation::calculate()
+bool Correlation::calculate(bool forced)
 {
   if (_count == 0) return false;
-  if (!_needRecalculate) return true;
+  if (! (_needRecalculate || forced)) return true;
 
   // CALC AVERAGE X, AVERAGE Y
   float avgx = 0;
@@ -102,25 +104,29 @@ bool Correlation::calculate()
   }
   float b = sumXiYi / sumXi2;
   float a = avgy - b * avgx;
-  // bool CORLIB_CALC_R_SQUARE
-  _rSquare = sumXiYi * sumXiYi / (sumXi2 * sumYi2);  
- 
+
   _a       = a;
   _b       = b;
   _sumXiYi = sumXiYi; 
   _sumXi2  = sumXi2; 
   _sumYi2  = sumYi2; 
 
-  // bool CORLIB_CALC_E_SQUARE
-  // CALC _sumErrorSquare
-  float sumErrorSquare = 0;
-  for (uint8_t i = 0; i < _count; i++)
+  if (_doR2 == true)
   {
-    float EY =  a + b * _x[i];
-    float ei = _y[i] - EY;
-    sumErrorSquare += (ei * ei);
+    _rSquare = sumXiYi * sumXiYi / (sumXi2 * sumYi2);
   }
-  _sumErrorSquare = sumErrorSquare;
+
+  if (_doE2 == true)
+  {
+    float sumErrorSquare = 0;
+    for (uint8_t i = 0; i < _count; i++)
+    {
+      float EY =  a + b * _x[i];
+      float ei = _y[i] - EY;
+      sumErrorSquare += (ei * ei);
+    }
+    _sumErrorSquare = sumErrorSquare;
+  }
   _needRecalculate = false;
   return true;
 }
