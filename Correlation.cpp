@@ -23,7 +23,8 @@
 
 Correlation::Correlation(uint8_t size)
 {
-  _size = size;
+  _size = 20;
+  if (size >  0) _size = size;
   _x = (float *) malloc(_size * sizeof(float));
   _y = (float *) malloc(_size * sizeof(float));
   clear();

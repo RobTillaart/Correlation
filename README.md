@@ -31,31 +31,37 @@ Use with care.
 
 ### Constructor
 
-- **Correlation(uint8_t size = 20)** allocates the array needed and resets internal admin.
+- **Correlation(uint8_t size = 20)** allocates the array needed and resets internal admin. Size should be between 1 and 255. Size = 0 will set the size to 20.
 - **~Correlation()** frees the allocated arrays.
 
 
 ### Base functions
 
-- **bool add(float x, float y)** adds a pair of **floats** to the internal storage. 
+- **bool add(float x, float y)** adds a pair of **floats** to the internal storage arrays's.
 Returns true if the value is added, returns false when internal array is full.
-When running correlation is set, it will replace the oldest element and return true.
-- **uint8_t count()** returns the amount of items in the internal arrays.
+When running correlation is set, **add()** will replace the oldest element and return true.
+- **uint8_t count()** returns the amount of items in the internal arrays. This number is always between 0 ..**size()**
 - **uint8_t size()** returns the size of the internal arrays.
-- **void clear()** resets the datastructure to start condition (zero elements added)
+- **void clear()** resets the data structures to the start condition (zero elements added)
 - **bool calculate()** does the math to calculate the correlation parameters A, B and R. 
 This function will be called automatically when needed.
 You can call it on a more convenient time. 
 Returns false if nothing to calculate **count == 0**
+- **void setR2Calculation(bool)** enables / disables the calculation of Rsquared.
+- **bool getR2Calculation()** returns the flag set.
+- **void setE2Calculation(bool)** enables / disables the calculation of Esquared.
+- **bool getE2Calculation()** returns the flag set.
+
+After the calculation the following functions can be called to return the core values.
 - **float getA()** returns the A parameter of formula **Y = A + B \* X**
 - **float getB()** returns the B parameter of formula **Y = A + B \* X**
 - **float getR()** returns the correlation coefficient R. 
 The closer to 0 the less correlation there is between X and Y. 
 Correlation can be positive or negative. 
-Most often the R squared **sqr(R)** is used.
+Most often the Rsquare **R x R** is used.
 - **float getRsquare()** returns the **sqr(R)** which is always between 0.. 1.
 - **float getEsquare()** returns the error squared to get an indication of the
-quality of the relation.
+quality of the correlation.
 - **float getAvgX()** returns the average of all elements in the X dataset.
 - **float getAvgY()** returns the average of all elements in the Y dataset.
 - **float getEstimateX(float y)** use to calculate the estimated X for a given Y.
@@ -67,11 +73,11 @@ quality of the relation.
 - **void setRunningCorrelation(bool rc)** sets the internal variable 
 runningMode which allows **add()** to overwrite old elements in the
 internal arrays. 
-- **bool getRunningCorrelation()** returns the runningMOde flag.
+- **bool getRunningCorrelation()** returns the runningMode flag.
 
-The running correlation will be calculated over the last **count** elements. 
-This allows for more adaptive formula finding e.g. find the relation between
-temperature and humidity per hour.
+The running correlation will be calculated over the last **count** elements. If the array is full, count will be size.
+This running correlation allows for more adaptive formula finding e.g. find the relation between
+temperature and humidity per hour, and how it changes over time.
 
 
 ### Statistical
@@ -89,10 +95,10 @@ It also depends on **R** of course. Idem for **getEstimateY()**
 
 ### Debugging / educational
 
-Normally not used.
+Normally not used. For all these functions idx should be < count!
 
 - **bool setXY(uint8_t idx, float x, float y)** overwrites a pair of values.
-Returns true if succeeded, idx should be < count!
+Returns true if succeeded.
 - **bool setX(uint8_t idx, float x)** overwrites single X.
 - **bool setY(uint8_t idx, float y)** overwrites single Y.
 - **float getX(uint8_t idx)** returns single value.
@@ -106,7 +112,7 @@ Returns true if succeeded, idx should be < count!
 
 - Template version
 The constructor should get a TYPE parameter, as this
-allows smaller datatypes to be analyzed taking less memory.
+allows smaller data types to be analysed taking less memory.
 
 
 ## Operation 
