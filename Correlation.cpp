@@ -7,6 +7,7 @@
 //  HISTORY:
 //  0.2.0  2021-08-26  Add flags to skip Rsquare and Esquare calculation
 //                     will improve performance calculate
+//                     fixed sign of R correlation coefficient
 //
 //  0.1.4  2021-08-26  improve performance calculate
 //  0.1.3  2021-01-16  add size in constructor,
@@ -48,7 +49,7 @@ void Correlation::clear()
   _avgY            = 0;
   _a               = 0;
   _b               = 0;
-  _rSquare         = 0;
+  _r               = 0;
   _sumErrorSquare  = 0;
   _sumXiYi         = 0;
   _sumXi2          = 0;
@@ -116,7 +117,9 @@ bool Correlation::calculate(bool forced)
 
   if (_doR2 == true)
   {
-    _rSquare = sumXiYi * sumXiYi / (sumXi2 * sumYi2);
+    // R is calculated instead of rSquared so we do not loose the sign.
+    // Rsquare  from R is much faster than R from Rsquare.
+    _r = sumXiYi / sqrt(sumXi2 * sumYi2);
   }
 
   if (_doE2 == true)

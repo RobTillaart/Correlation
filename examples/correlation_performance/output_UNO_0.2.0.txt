@@ -3,10 +3,10 @@ ADD
 12.00
 
 CALCULATE - needed 
-2732
+2752
 
 CALCULATE - no new values added
-8
+12
 
 getEstimateX
 44
@@ -15,13 +15,13 @@ getEstimateY
 20
 
 getMaxX
-92
+84
 
 ===================================
 0.2.0 
 
 ADD
-24.40
+23.80
 
 disable R2 and E2 math from calculate
 
@@ -32,6 +32,6 @@ CALCULATE - no new values added
 12
 
 CALCULATE - no new values added but forced
-1780
+1784
 
 Done...

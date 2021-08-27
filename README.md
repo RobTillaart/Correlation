@@ -60,17 +60,37 @@ Returns false if nothing to calculate **count == 0**
 After the calculation the following functions can be called to return the core values.
 - **float getA()** returns the A parameter of formula **Y = A + B \* X**
 - **float getB()** returns the B parameter of formula **Y = A + B \* X**
-- **float getR()** returns the correlation coefficient R. 
+- **float getR()** returns the correlation coefficient R which is always between -1 .. 1
 The closer to 0 the less correlation there is between X and Y. 
 Correlation can be positive or negative. 
 Most often the Rsquare **R x R** is used.
-- **float getRsquare()** returns the **sqr(R)** which is always between 0.. 1.
+- **float getRsquare()** returns **R x R** which is always between 0.. 1.
 - **float getEsquare()** returns the error squared to get an indication of the
 quality of the correlation.
 - **float getAvgX()** returns the average of all elements in the X dataset.
 - **float getAvgY()** returns the average of all elements in the Y dataset.
 - **float getEstimateX(float y)** use to calculate the estimated X for a given Y.
 - **float getEstimateY(float x)** use to calculate the estimated Y for a given X.
+
+
+#### Correlation Coefficient R
+
+Indicative description of the correlation
+
+|  R            |  correlation  |
+|:-------------:|:--------------|
+| +1.0          | Perfect       |
+| +0.8 to +1.0  | Very strong   |
+| +0.6 to +0.8  | Strong        |
+| +0.4 to +0.6  | Moderate      |
+| +0.2 to +0.4  | Weak          |
+|  0.0 to +0.2  | Very weak     |
+|  0.0 to -0.2  | Very weak     |
+| -0.2 to -0.4  | Weak          |
+| -0.4 to -0.6  | Moderate      |
+| -0.6 to -0.8  | Strong        |
+| -0.8 to -1.0  | Very strong   |
+| -1.0          | Perfect       |
 
 
 ### Running correlation
@@ -118,7 +138,6 @@ Returns true if succeeded.
 - Template version
 The constructor should get a TYPE parameter, as this
 allows smaller data types to be analysed taking less memory.
-- get the sign of R correct.
 
 
 ## Operation 

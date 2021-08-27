@@ -61,10 +61,9 @@ public:
   float   getB()       { return _b; };
 
 
-  // returns abs(R) == correlation coefficient
-  // note that the sign of R can be incorrect.        TODO?
-  float   getR()       { return sqrt(_rSquare); };
-  float   getRsquare() { return _rSquare; };
+  // getR() returns correlation coefficient  (0.2.0 fixed sign)
+  float   getR()       { return _r; };
+  float   getRsquare() { return _r * _r; };
 
 
   // returns sum of the errors squared == indication of 'spread'
@@ -119,7 +118,7 @@ private:
   float   _avgY;
   float   _a;
   float   _b;
-  float   _rSquare;
+  float   _r;
   float   _sumErrorSquare;
   float   _sumXiYi;
   float   _sumXi2;
