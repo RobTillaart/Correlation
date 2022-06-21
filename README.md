@@ -152,7 +152,12 @@ The constructor should get a TYPE parameter, as this
 allows smaller data types to be analysed taking less memory.
 - examples
   - real world if possible.
-  - 0.3.0 fix naming as some function names are replaced.
+
+
+### 0.3.0
+
+- fix naming in examples as some function names are replaced.
+- are the getSUmXiYi indeed worse?
 
 
 

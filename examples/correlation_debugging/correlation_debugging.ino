@@ -49,11 +49,11 @@ void setup()
   Serial.print("Esq:\t");
   Serial.println(C.getEsquare(), 3);
   Serial.print("SumXiYi:\t");
-  Serial.println(C.getSumXY(), 1);
+  Serial.println(C.getSumXiYi(), 1);
   Serial.print("SumXi2:\t\t");
-  Serial.println(C.getSumX2(), 1);
+  Serial.println(C.getSumXi2(), 1);
   Serial.print("SumYi2:\t\t");
-  Serial.println(C.getSumY2(), 1);
+  Serial.println(C.getSumYi2(), 1);
   Serial.println();
   Serial.println();
 

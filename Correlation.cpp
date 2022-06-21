@@ -54,7 +54,7 @@ void Correlation::clear()
   _avgY            = 0;
   _a               = 0;
   _b               = 0;
-  //_div_b           = -1;  //  as 1/_b is undefined
+  _div_b           = -1;  //  as 1/_b is undefined
   _r               = 0;
   _sumErrorSquare  = 0;
   _sumXiYi         = 0;

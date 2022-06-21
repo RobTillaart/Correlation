@@ -49,9 +49,9 @@ void setup()
   Serial.println(stop - start);
   Serial.println();
 
-  Serial.println(C.getSumXY(), 6);
-  Serial.println(C.getSumX2(), 6);
-  Serial.println(C.getSumY2(), 6);
+  Serial.println(C.getSumXiYi(), 6);
+  Serial.println(C.getSumXi2(), 6);
+  Serial.println(C.getSumYi2(), 6);
   Serial.println(C.getRsquare(), 6);
   Serial.println(C.getR(), 6);
   Serial.print("A: ");
@@ -62,8 +62,8 @@ void setup()
 
 
   start = micros();
-  float COV = C.getSumXY() / ((C.count() - 1));
-  float R = C.getSumXY() / sqrt(C.getSumX2() * C.getSumY2());
+  float COV = C.getSumXiYi() / ((C.count() - 1));
+  float R = C.getSumXiYi() / sqrt(C.getSumXi2() * C.getSumYi2());
   stop = micros();
   Serial.println(stop - start);
   Serial.print("COV: ");
@@ -94,9 +94,9 @@ void test()
   C.calculate();
 
   Serial.println("---------------");
-  Serial.println(C.getSumXY(), 6);
-  Serial.println(C.getSumX2(), 6);
-  Serial.println(C.getSumY2(), 6);
+  Serial.println(C.getSumXiYi(), 6);
+  Serial.println(C.getSumXi2(), 6);
+  Serial.println(C.getSumYi2(), 6);
   Serial.println(C.getRsquare(), 6);
   Serial.println(C.getR(), 6);
   Serial.print("A: ");
@@ -114,3 +114,4 @@ void test()
 
 
 // -- END OF FILE --
+
