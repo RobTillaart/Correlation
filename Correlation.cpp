@@ -95,8 +95,6 @@ bool Correlation::calculate(bool forced)
     avgx += _x[i];
     avgy += _y[i];
   }
-  //  avgx /= _count;
-  //  avgy /= _count;
   avgx *= div_count;
   avgy *= div_count;
 
