@@ -71,10 +71,10 @@ public:
 
 
   //  get the average values of the datasets (if count > 0)
-  float   getAverageX(){ return _avgX; };  //  will replace getAvgX() in time
-  float   getAverageY(){ return _avgY; };  //  will replace getAvgY() in time
-  // float   getAvgX()    { return _avgX; };  //  will be obsolete in future
-  // float   getAvgY()    { return _avgY; };  //  will be obsolete in future
+  float   getAverageX() { return _avgX; };  //  will replace getAvgX() in time
+  float   getAverageY() { return _avgY; };  //  will replace getAvgY() in time
+  // float   getAvgX()  { return _avgX; };  //  obsolete in 0.3.0
+  // float   getAvgY()  { return _avgY; };  //  obsolete in 0.3.0
 
 
   //  based on the dataset get the estimated values for X and Y
@@ -85,6 +85,7 @@ public:
 
 
   //  STATISTICAL
+  //  to get bounding box of all x,y pairs.
   float   getMinX();    //  idem
   float   getMaxX();    //  idem
   float   getMinY();    //  idem
@@ -94,7 +95,7 @@ public:
   //  DEBUGGING - access to internal arrays.
   bool    setXY(uint8_t index, float x, float y);  //  returns true if succeeded
   bool    setX(uint8_t index, float x);            //  returns true if succeeded
-  bool    setY(uint8_t index, float y);            //  ss returns true if succeeded
+  bool    setY(uint8_t index, float y);            //  returns true if succeeded
   float   getX(uint8_t index);    //  idem
   float   getY(uint8_t index);    //  idem
 

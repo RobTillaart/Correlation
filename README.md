@@ -31,10 +31,11 @@ Use with care.
 
 #### Related
 
+- https://github.com/RobTillaart/Correlation
+- https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
-- https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
 
