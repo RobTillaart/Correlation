@@ -115,7 +115,7 @@ unittest(test_get_statistics)
   C.add(6, 15);
   C.calculate();
 
-  assertEqualFloat(4, C.getAveargeX(), 0.0001);
+  assertEqualFloat(4, C.getAverageX(), 0.0001);
   assertEqualFloat(11, C.getAverageY(), 0.0001);
 }
 
