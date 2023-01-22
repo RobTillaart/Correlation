@@ -96,9 +96,9 @@ void test()
   C.calculate();
 
   Serial.println("---------------");
-  Serial.println(C.getSumXiYi(), 6);
-  Serial.println(C.getSumXi2(), 6);
-  Serial.println(C.getSumYi2(), 6);
+  Serial.println(C.getSumXY(), 6);
+  Serial.println(C.getSumX2(), 6);
+  Serial.println(C.getSumY2(), 6);
   Serial.println(C.getRsquare(), 6);
   Serial.println(C.getR(), 6);
   Serial.print("A: ");
