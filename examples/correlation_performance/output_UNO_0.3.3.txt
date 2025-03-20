@@ -1,0 +1,46 @@
+IDE:    1.8.19
+BOARD:  UNO
+
+correlation_performance.ino
+
+CORRELATION_LIB_VERSION: 0.3.3
+
+ADD
+11.80
+
+CALCULATE - needed
+2756
+
+CALCULATE - no new values added
+12
+
+getEstimateX
+24
+
+getEstimateY
+20
+
+getMaxX
+88
+
+getMinX
+84
+
+===================================
+
+
+ADD - fill arrays again
+12.00
+
+disable R2 and E2 math from calculate
+
+CALCULATE - needed
+1772
+
+CALCULATE - no new values added
+8
+
+CALCULATE - no new values added but forced
+1780
+
+Done...
